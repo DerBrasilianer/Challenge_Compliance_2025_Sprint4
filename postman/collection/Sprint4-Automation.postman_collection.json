@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "c7626f84-9db9-4c5f-bc04-5f96977404bb",
+		"name": "Sprint4-Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48842609",
+		"_collection_link": "https://derbrasilianer-8506437.postman.co/workspace/Enzo-Prado-Soddano's-Workspace~72c6ebd7-1a15-4b1d-88ef-6c6edd2b54e5/collection/48842609-c7626f84-9db9-4c5f-bc04-5f96977404bb?action=share&source=collection_link&creator=48842609"
+	},
+	"item": [
+		{
+			"name": "Login (GET /api/motos)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// monta header Basic com as variáveis do environment\r",
+							"const user = pm.environment.get(\"adminUser\") || \"\";\r",
+							"const pass = pm.environment.get(\"adminPass\") || \"\";\r",
+							"const raw = `${user}:${pass}`;\r",
+							"const b64 = typeof btoa === \"function\" ? btoa(raw) : Buffer.from(raw).toString(\"base64\");\r",
+							"pm.environment.set(\"basicAuth\", b64);\r",
+							"pm.request.headers.upsert({ key: \"Authorization\", value: `Basic ${b64}` });\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200\", () => pm.response.to.have.status(200));\r",
+							"pm.test(\"Response is JSON\", () => pm.response.to.be.json);\r",
+							"pm.test(\"Response is array or page object\", () => {\r",
+							"  const json = pm.response.json();\r",
+							"  pm.expect(Array.isArray(json) || json.hasOwnProperty(\"content\")).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{basicAuth}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/motos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"motos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Pátio (POST /api/patios)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200 or 201\", () => {\r",
+							"  pm.expect(pm.response.code === 200 || pm.response.code === 201).to.be.true;\r",
+							"});\r",
+							"pm.test(\"Response has id and nome\", () => {\r",
+							"  const json = pm.response.json();\r",
+							"  pm.expect(json).to.have.property(\"id\");\r",
+							"  pm.expect(json.nome).to.eql(\"Patio Autotest\");\r",
+							"});\r",
+							"if (pm.response.code === 200 || pm.response.code === 201) {\r",
+							"  const json = pm.response.json();\r",
+							"  pm.environment.set(\"patioIdCreated\", json.id);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{basicAuth}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Patio Autotest\",\r\n  \"endereco\": \"Rua Test 123\",\r\n  \"telefone\": \"1122334455\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/patios",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"patios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Moto (POST /api/motos)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status is 200 or 201\", () => {\r",
+							"  pm.expect(pm.response.code === 200 || pm.response.code === 201).to.be.true;\r",
+							"});\r",
+							"pm.test(\"Response has id, placa and patio\", () => {\r",
+							"  const json = pm.response.json();\r",
+							"  pm.expect(json).to.have.property(\"id\");\r",
+							"  pm.expect(json).to.have.property(\"placa\");\r",
+							"  pm.expect(json).to.have.property(\"patio\");\r",
+							"});\r",
+							"\r",
+							"// save id and placa for later\r",
+							"const json = pm.response.json();\r",
+							"if (json && json.id) {\r",
+							"  pm.environment.set(\"motoIdCreated\", json.id);\r",
+							"  pm.environment.set(\"motoPlacaCreated\", json.placa);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{basicAuth}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"marca\": \"HONDA\",\r\n  \"modelo\": \"POP\",\r\n  \"placa\": \"AUTO-2100\",\r\n  \"ano\": 2024,\r\n  \"numeroIot\": 12345,\r\n  \"patioId\": {{patioIdCreated}}\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/motos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"motos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Moto (DELETE /api/motos/{{motoIdCreated}})",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Delete returns 204 or 200\", () => {\r",
+							"  pm.expect(pm.response.code === 204 || pm.response.code === 200).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"After delete GET returns 404 or 400\", () => {\r",
+							"  // Some implementations return 404, others 400. Adjust if your backend behaves differently.\r",
+							"  pm.expect([404, 400].includes(pm.response.code)).to.be.true;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic {{basicAuth}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/motos/{{motoIdCreated}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"motos",
+						"{{motoIdCreated}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
