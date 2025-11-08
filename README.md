@@ -92,7 +92,7 @@ Essas variáveis permitem que os testes rodem automaticamente sem trocar valores
 
 **🎥 Link do vídeo:**
 
-> *[Vídeo de Demonstração]()*
+> *[Vídeo de Demonstração](https://youtu.be/s02bYJAzQJ0)*
 
 O vídeo mostra:
 
