@@ -2,11 +2,11 @@
 
 ## 📌 Projeto: Gestão de Frotas – Mobile + Backend Java
 
-**Grupo: LTAKN — (mesmos integrantes utilizados nas outras disciplinas)**
+**Grupo: LTAKN)**
 
-Enzo Prado Soddano, RM557937
-Vinicius Prates Altafini, RM 559183
-Lucas Resende Lima, RM556564
+* Enzo Prado Soddano, RM557937
+* Vinicius Prates Altafini, RM 559183
+* Lucas Resende Lima, RM556564
 
 ---
 
