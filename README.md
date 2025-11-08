@@ -22,10 +22,10 @@ Nesta sprint foram criados **6 casos de teste manuais** conforme solicitação d
 
 | PBI       | Funcionalidade testada   | Sprint onde foi implementada |
 | --------- | ------------------------ | ---------------------------- |
-| **Login** | Autenticação de usuários | Sprint 3                     |
+| **Login** | Autenticação de usuários | Sprint 4                     |
 
-| **Cadastro de Motos e Pátios** | CRUD de motos e pátios | Sprint 4 |
-| **Visualização de Motos e Pátios** | Listagem de dados com atualização automática | Sprint 4 |
+| **Cadastro de Motos e Pátios** | CRUD de motos e pátios | Sprint 3 |
+| **Visualização de Motos e Pátios** | Listagem de dados com atualização automática | Sprint 3 |
 
 ⚠️ **Aviso Importante**
 
